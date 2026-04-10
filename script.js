@@ -1,11 +1,4 @@
 // add javascript here
-let userName = prompt("Enter your name")
-function titleCase(word) {
-  let first = word.charAt(0).toUpperCase();
-  let rest = word.slice(1).toLowerCase();
-  return first + rest;
-}
-
 let guess = 0;
 let answer = 0;
 let guessCount = 0;
@@ -14,11 +7,33 @@ let range = 0;
 let timeStart = 0;
 let elapsedTime = 0;
 let endTime = 0;
+document.getElementById("test").style.display = "none";
+
+
+let userName = prompt("Enter your name")
+function titleCase(word) {
+  let first = word.charAt(0).toUpperCase();
+  let rest = word.slice(1).toLowerCase();
+  return first + rest;
+}
 
 const times = [];
 const scores = [];
 
 document.getElementById("playBtn").addEventListener("click", play);
+let other = document.getElementById("o")
+
+other.addEventListener("click",otherFunc);
+function otherFunc(){
+    test.style.display = "block"
+}
+
+e.addEventListener("click",hideOther);
+m.addEventListener("click",hideOther);
+h.addEventListener("click",hideOther);
+function hideOther(){
+    test.style.display = "none";
+}
 
 function play(){
     let levels = document.getElementsByName("level");
@@ -28,10 +43,15 @@ function play(){
         }
         levels[i].disabled = true;
     }
+
+    if (other.checked){
+        range = test.value
+    }
     document.getElementById("msg").textContent = "Guess a number 1-" + range + ", " + titleCase(userName);
     answer = Math.floor(Math.random()*range) +1;
     guessCount = 0;
 
+    other.disabled = true;
     guessBtn.disabled = false;
     giveUpBtn.disabled = false;
     playBtn.disabled = true;
@@ -42,7 +62,7 @@ document.getElementById("guessBtn").addEventListener("click", makeGuess);
 
 function makeGuess(){
     let guess = parseInt(document.getElementById("guess").value);
-    if(isNaN(guess)){
+    if(isNaN(guess) || guess > range || guess < 1){
         msg.textContent = "Please enter a valid number."
         return;
     }
@@ -113,6 +133,10 @@ function resetGame(){
     e.disabled = false;
     h.disabled = false;
     m.disabled = false;
+    other.disabled = false;
+    test.style.display = "none";
+    test.value = "";
+    e.checked = true;
 }
 
 document.getElementById("giveUpBtn").addEventListener("click",giveUp);
